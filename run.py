@@ -3,6 +3,7 @@ import argparse
 import os
 import focal_stats
 
+# Optimization arguments
 parser = argparse.ArgumentParser(description = 'Focal statistics')
 parser.add_argument('--filepath', default = os.getcwd(), type = str, help ='Path to dataset')
 parser.add_argument('--name', default = "data/image.jpg", type = str, help ='name of the image file to be filtered')
@@ -12,15 +13,19 @@ parser.add_argument('--statsmod', default = "mean", type = str, help ='Statistic
 
 
 args = parser.parse_args()
+
+# Get path to image data
 image_path = os.path.join(args.filepath, args.name)
 
-
+# Run the application
 f = focal_stats.FocalStats(image_path, func = args.statsmod, size = args.size)
-# Apply the function mask
+
+# Apply the function mask depending on the choice of the user
 if args.mask in ["square", "rectangular"]:
     filtered = f.Rec()
 elif args.mask in ["circular", "elliptical"]:
     filtered = f.Circ()
+
 # And show the results
 plt.imshow(filtered)
 plt.axis('off')
